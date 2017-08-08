@@ -1,0 +1,13 @@
+function _unlock {
+    eval $(ssh-agent)
+    ssh-add ~/.ssh/id_rsa
+}
+
+function _grok {
+    pandoc $1 | lynx -stdin
+}
+
+alias vi="$(which vim)"
+alias unlock="_unlock"
+alias lynx="lynx -cfg ~/.lynx.cfg -lss ~/.lynx.lss"
+alias grok="_grok"

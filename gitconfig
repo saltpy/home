@@ -1,0 +1,22 @@
+[user]
+	name = James Salt
+[merge]
+	tool = vimdiff
+[alias]
+    # Author of a commit
+    a = log --format='%an <%ae>'
+    # Changes in a hash
+    hc = diff-tree --no-commit-id --name-only -r
+    # Log
+    l = log --oneline --decorate
+    lga = ! git lg --all
+    lg = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(black)%s%C(reset) %C(black)- %an%C(reset)'
+    lgb = ! git lg master..
+    # Outgoing
+    o = log --oneline --decorate master..HEAD
+    # Show Head Master
+    shm = ! git show $(git log --oneline --decorate master | cut -d " " -f 1)
+    # Branch Tip hash for Master
+    btm = ! git log master | head -n 1 | cut -d \" \" -f 2
+    # List Alias'
+    la = ! git config -l | grep alias | cut -c 7-

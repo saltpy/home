@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+
+set -e
+
+function scaffold {
+    mkdir -p $1
+    cd $1
+    python3 -m venv .venv
+    git init
+    echo ".venv" > .gitignore
+    echo "# $(basename $1)" > README.md
+    cd -
+}
+
+function list {
+    echo "Saved sessions:"
+    tmux ls 2> /dev/null | cut -d ":" -f 1
+    echo ""
+    echo "Projects:"
+    ls -1 ~/src
+}
+
+function attach {
+    tmux send-keys -t $1:1.0 "vi" C-m
+    tmux send-keys -t $1:1.1 ". .venv/bin/activate; clear" C-m
+    tmux send-keys -t $1:1.2 ". .venv/bin/activate; clear" C-m
+    tmux attach -t $1
+}
+
+function createAndAttach {
+    test -d ~/src/$1 || scaffold ~/src/$1
+    cd ~/src/$1
+    tmux new-session -s $1 -n 1 -d
+    tmux split-window -h -p 40 -t $1:1.0
+    tmux split-window -v -p 10 -t $1:1.0
+    attach $1
+}
+
+if [[ -z $1 ]];then
+    list
+else
+    tmux ls 2> /dev/null | grep -q $1 && attach $1 || createAndAttach $1
+fi

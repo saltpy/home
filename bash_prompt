@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+GREEN="\[\e[32m\]"
+BLUE="\[\e[34m\]"
+RED="\[\e[31m\]"
+YELLOW="\[\e[33m\]"
+PURPLE="\[\e[35m\]"
+NC="\[\e[0m\]"
+
+function gitBranchInfo {
+    git branch > /dev/null 2>&1 
+    if test $? -ne 0 ;then
+        echo "-"
+    else
+        echo "$(git rev-parse --abbrev-ref HEAD 2> /dev/null)"
+    fi
+    return 0
+}
+
+function virtualEnv {
+    test -z $VIRTUAL_ENV && echo "-" || echo $VIRTUAL_ENV | rev | cut -d "/" -f 1,2 | rev
+}
+
+function prompt {
+    if test $? -eq 0 ;then
+        cs=$GREEN\$$NC
+    else
+        cs=$RED\$$NC
+    fi
+
+    mc=$GREEN$(whoami)@$(hostname)
+    wd=$BLUE$(basename $(pwd))
+    bi=$PURPLE$(gitBranchInfo)
+    vi=$YELLOW$(virtualEnv)
+
+    PS1="$mc $wd $bi $vi $cs "
+}
+
+PROMPT_COMMAND=prompt
