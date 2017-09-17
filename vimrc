@@ -44,12 +44,6 @@ set autoindent
 set fileformat=unix
 set textwidth=100
 
-"Setup generic indentation for short indent types
-au BufNewFile,BufRead *.sh, *.js, *.xml, *.json, *.yaml, *.yml, *.feature set tabstop=2
-au BufNewFile,BufRead *.sh, *.js, *.xml, *.json, *.yaml, *.yml, *.feature set softtabstop=2
-au BufNewFile,BufRead *.sh, *.js, *.xml, *.json, *.yaml, *.yml, *.feature set shiftwidth=2
-au BufNewFile,BufRead *.sh, *.js, *.xml, *.json, *.yaml, *.yml, *.feature set textwidth=200
-
 "Setup Makefile indentation
 au BufNewFile,BufRead Makefile* set noexpandtab
 
